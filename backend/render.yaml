@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: django-backend
+    env: python
+    plan: free  # You can change to 'starter' later if you scale
+    buildCommand: |
+      pip install -r requirements.txt
+    startCommand: |
+      gunicorn backend.wsgi:application --bind 0.0.0.0:$PORT
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: backend.settings
+      - key: PYTHON_VERSION
+        value: 3.10
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "True"
+    autoDeploy: true
